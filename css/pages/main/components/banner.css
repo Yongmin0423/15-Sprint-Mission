@@ -20,16 +20,17 @@ banner {
 .banner-left {
   width: 25%;
   height: 70%;
+  max-width: 357px;
 }
 
 .banner-right {
   display: flex;
   align-items: flex-end;
-  width: 65%;
+  max-width: 746px;
+  max-height: 340px;
   height: 100%;
   img {
     width: 100%;
-    max-height: 80%;
   }
 }
 
