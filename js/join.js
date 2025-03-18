@@ -2,7 +2,10 @@ const loginEmail = document.getElementById("login-email");
 const emailAlert = document.getElementById("login-email-alert");
 const loginPassword = document.getElementById("login-password");
 const passwordAlert = document.getElementById("login-password-alert");
-
+const joinNickname = document.getElementById("join-nickname");
+const nicknameAlert = document.getElementById("join-nickname-alert");
+const joinPassword2 = document.getElementById("join-password2");
+const password2Alert = document.getElementById("join-password-confirm-alert");
 const loginBtn = document.getElementById("login-submit");
 
 // 로그인 버튼 상태 업데이트 함수
@@ -12,9 +15,16 @@ const loginBtnUpdate = () => {
   const isPasswordEmpty = loginPassword.value.trim() === "";
   const isEmailError = !emailAlert.classList.contains("hidden");
   const isPasswordError = !passwordAlert.classList.contains("hidden");
+  const isNickname = joinNickname.value.trim() === "";
 
   // 조건 중 하나라도 만족하면 버튼 비활성화
-  if (isEmailEmpty || isPasswordEmpty || isEmailError || isPasswordError) {
+  if (
+    isEmailEmpty ||
+    isPasswordEmpty ||
+    isEmailError ||
+    isPasswordError ||
+    isNickname
+  ) {
     loginBtn.disabled = true;
   } else {
     loginBtn.disabled = false;
@@ -82,5 +92,35 @@ function passwordAlertFn(event) {
   loginBtnUpdate();
 }
 
+function nicknameAlertFn(event) {
+  const input = event.target.value;
+  //닉네임이 빈 경우
+  if (input === "") {
+    showErrorMessage("닉네임을 입력해주세요.", joinNickname, nicknameAlert);
+    loginBtnUpdate();
+    return;
+  }
+
+  hiddenErrorMessage(joinNickname, nicknameAlert);
+  loginBtnUpdate();
+}
+
+function password2AlertFn(event) {
+  //비밀번호가 일치하지 않는 경우
+  if (loginPassword.value !== joinPassword2.value) {
+    showErrorMessage(
+      "비밀번호가 일치하지 않습니다.",
+      joinPassword2,
+      password2Alert
+    );
+    loginBtnUpdate();
+    return;
+  }
+  hiddenErrorMessage(joinPassword2, password2Alert);
+  loginBtnUpdate();
+}
+
 loginEmail.addEventListener("focusout", emailAlertFn);
 loginPassword.addEventListener("focusout", passwordAlertFn);
+joinNickname.addEventListener("focusout", nicknameAlertFn);
+joinPassword2.addEventListener("focusout", password2AlertFn);

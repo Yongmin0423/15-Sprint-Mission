@@ -46,13 +46,19 @@
     border: none;
     height: 3.5rem;
     padding: 0 1rem;
+    border-radius: 12px;
   }
-
   #login-submit {
     background-color: #3692ff;
     color: white;
     border-radius: 40px;
     height: 3.5rem;
+    cursor: pointer;
+  }
+  #login-submit:disabled {
+    background-color: #9ca3af; /* 연한 회색 */
+    color: #f3f4f6; /* 어두운 회색 */
+    cursor: not-allowed; /* 금지 표시 */
   }
   /* #no-eye {
     position: absolute;
