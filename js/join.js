@@ -6,7 +6,7 @@ const joinNickname = document.getElementById("join-nickname");
 const nicknameAlert = document.getElementById("join-nickname-alert");
 const joinPassword2 = document.getElementById("join-password2");
 const password2Alert = document.getElementById("join-password-confirm-alert");
-const loginBtn = document.getElementById("login-submit");
+const joinBtn = document.getElementById("login-submit");
 
 // 로그인 버튼 상태 업데이트 함수
 const loginBtnUpdate = () => {
@@ -107,6 +107,15 @@ function nicknameAlertFn(event) {
 
 function password2AlertFn(event) {
   //비밀번호가 일치하지 않는 경우
+  if (input.length < 8) {
+    showErrorMessage(
+      "비밀번호를 8자 이상 입력해주세요.",
+      joinPassword2,
+      password2Alert
+    );
+    loginBtnUpdate();
+    return;
+  }
   if (loginPassword.value !== joinPassword2.value) {
     showErrorMessage(
       "비밀번호가 일치하지 않습니다.",
@@ -120,7 +129,13 @@ function password2AlertFn(event) {
   loginBtnUpdate();
 }
 
+function handleJoin(event) {
+  event.preventDefault();
+  window.location.href = "/signup";
+}
+
 loginEmail.addEventListener("focusout", emailAlertFn);
 loginPassword.addEventListener("focusout", passwordAlertFn);
 joinNickname.addEventListener("focusout", nicknameAlertFn);
 joinPassword2.addEventListener("focusout", password2AlertFn);
+joinBtn.addEventListener("click", handleJoin);

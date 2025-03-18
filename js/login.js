@@ -2,7 +2,6 @@ const loginEmail = document.getElementById("login-email");
 const emailAlert = document.getElementById("login-email-alert");
 const loginPassword = document.getElementById("login-password");
 const passwordAlert = document.getElementById("login-password-alert");
-
 const loginBtn = document.getElementById("login-submit");
 
 // 로그인 버튼 상태 업데이트 함수
@@ -82,5 +81,11 @@ function passwordAlertFn(event) {
   loginBtnUpdate();
 }
 
+function handleLogin(event) {
+  event.preventDefault();
+  window.location.href = "/items";
+}
+
 loginEmail.addEventListener("focusout", emailAlertFn);
 loginPassword.addEventListener("focusout", passwordAlertFn);
+loginBtn.addEventListener("click", handleLogin);
