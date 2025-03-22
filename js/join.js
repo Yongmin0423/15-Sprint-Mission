@@ -139,32 +139,36 @@ function handleJoin(event) {
   window.location.href = "/signup";
 }
 
-function handleEyeIcon(event) {
+function handleEyeIcon(event, Input, Icon) {
   event.preventDefault();
-  if (loginPassword.type === "password") {
-    loginPassword.type = "text";
-    eyeIcon.src = "../img/eye.png";
+  if (Input.type === "password") {
+    Input.type = "text";
+    Icon.src = "../img/eye.png";
   } else {
-    loginPassword.type = "password";
-    eyeIcon.src = "../img/no-eye.png";
+    Input.type = "password";
+    Icon.src = "../img/no-eye.png";
   }
 }
 
-function handleEyeIcon2(event) {
-  event.preventDefault();
-  if (joinPassword2.type === "password") {
-    joinPassword2.type = "text";
-    eyeIcon2.src = "../img/eye.png";
-  } else {
-    joinPassword2.type = "password";
-    eyeIcon2.src = "../img/no-eye.png";
-  }
-}
+// function handleEyeIcon2(event) {
+//   event.preventDefault();
+//   if (joinPassword2.type === "password") {
+//     joinPassword2.type = "text";
+//     eyeIcon2.src = "../img/eye.png";
+//   } else {
+//     joinPassword2.type = "password";
+//     eyeIcon2.src = "../img/no-eye.png";
+//   }
+// }
 
 loginEmail.addEventListener("focusout", emailAlertFn);
 loginPassword.addEventListener("focusout", passwordAlertFn);
 joinNickname.addEventListener("focusout", nicknameAlertFn);
 joinPassword2.addEventListener("focusout", password2AlertFn);
 joinBtn.addEventListener("click", handleJoin);
-toggleBtn.addEventListener("click", handleEyeIcon);
-toggleBtn2.addEventListener("click", handleEyeIcon2);
+toggleBtn.addEventListener("click", (event) =>
+  handleEyeIcon(event, loginPassword, eyeIcon)
+);
+toggleBtn2.addEventListener("click", (event) =>
+  handleEyeIcon(event, joinPassword2, eyeIcon2)
+);
