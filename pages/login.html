@@ -10,7 +10,7 @@
     <div class="total-container">
       <main class="loginContainer">
         <a href="../index.html" class="login-logo"
-          ><img src="../img/logo.png" / ></a
+          ><img src="../img/logo.png" ></a
         >
         <div class="login-form-container">
           <form class="login-form">
@@ -34,14 +34,16 @@
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
               />
-              <span
-                id="login-password-alert"
-                style="color: var(--alert-color)"
-                class="hidden"
-              ></span>
-              <!-- <img src="../img/no-eye.png" id="no-eye" /> -->
-              <button id="login-submit">로그인</button>
+              <button  id="toggle-password" type="button">
+                <img src="../img/no-eye.png" id="eye-icon" />
+              </button>
             </div>
+            <span
+            id="login-password-alert"
+            style="color: var(--alert-color)"
+            class="hidden"
+          ></span>
+              <button id="login-submit">로그인</button>
           </form>
           <div class="social-login">
             <span>간편 로그인하기</span>

@@ -7,6 +7,10 @@ const nicknameAlert = document.getElementById("join-nickname-alert");
 const joinPassword2 = document.getElementById("join-password2");
 const password2Alert = document.getElementById("join-password-confirm-alert");
 const joinBtn = document.getElementById("login-submit");
+const toggleBtn = document.getElementById("toggle-password");
+const toggleBtn2 = document.getElementById("toggle-password-confirm");
+const eyeIcon = document.getElementById("eye-icon");
+const eyeIcon2 = document.getElementById("eye-icon2");
 
 // 로그인 버튼 상태 업데이트 함수
 const loginBtnUpdate = () => {
@@ -135,8 +139,32 @@ function handleJoin(event) {
   window.location.href = "/signup";
 }
 
+function handleEyeIcon(event) {
+  event.preventDefault();
+  if (loginPassword.type === "password") {
+    loginPassword.type = "text";
+    eyeIcon.src = "../img/eye.png";
+  } else {
+    loginPassword.type = "password";
+    eyeIcon.src = "../img/no-eye.png";
+  }
+}
+
+function handleEyeIcon2(event) {
+  event.preventDefault();
+  if (joinPassword2.type === "password") {
+    joinPassword2.type = "text";
+    eyeIcon2.src = "../img/eye.png";
+  } else {
+    joinPassword2.type = "password";
+    eyeIcon2.src = "../img/no-eye.png";
+  }
+}
+
 loginEmail.addEventListener("focusout", emailAlertFn);
 loginPassword.addEventListener("focusout", passwordAlertFn);
 joinNickname.addEventListener("focusout", nicknameAlertFn);
 joinPassword2.addEventListener("focusout", password2AlertFn);
 joinBtn.addEventListener("click", handleJoin);
+toggleBtn.addEventListener("click", handleEyeIcon);
+toggleBtn2.addEventListener("click", handleEyeIcon2);

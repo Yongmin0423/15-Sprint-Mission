@@ -3,6 +3,8 @@ const emailAlert = document.getElementById("login-email-alert");
 const loginPassword = document.getElementById("login-password");
 const passwordAlert = document.getElementById("login-password-alert");
 const loginBtn = document.getElementById("login-submit");
+const toggleBtn = document.getElementById("toggle-password");
+const eyeIcon = document.getElementById("eye-icon");
 
 // 로그인 버튼 상태 업데이트 함수
 const loginBtnUpdate = () => {
@@ -86,6 +88,18 @@ function handleLogin(event) {
   window.location.href = "/items";
 }
 
+function handleEyeIcon(event) {
+  event.preventDefault();
+  if (loginPassword.type === "password") {
+    loginPassword.type = "text";
+    eyeIcon.src = "../img/eye.png";
+  } else {
+    loginPassword.type = "password";
+    eyeIcon.src = "../img/no-eye.png";
+  }
+}
+
 loginEmail.addEventListener("focusout", emailAlertFn);
 loginPassword.addEventListener("focusout", passwordAlertFn);
 loginBtn.addEventListener("click", handleLogin);
+toggleBtn.addEventListener("click", handleEyeIcon);
