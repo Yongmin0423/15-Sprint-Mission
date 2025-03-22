@@ -25,9 +25,9 @@ const loginBtnUpdate = () => {
     isPasswordError ||
     isNickname
   ) {
-    loginBtn.disabled = true;
+    joinBtn.disabled = true;
   } else {
-    loginBtn.disabled = false;
+    joinBtn.disabled = false;
   }
 };
 
@@ -106,6 +106,7 @@ function nicknameAlertFn(event) {
 }
 
 function password2AlertFn(event) {
+  const input = event.target.value;
   //비밀번호가 일치하지 않는 경우
   if (input.length < 8) {
     showErrorMessage(
