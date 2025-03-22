@@ -136,7 +136,7 @@ function password2AlertFn(event) {
 
 function handleJoin(event) {
   event.preventDefault();
-  window.location.href = "/signup";
+  window.location.href = "/pages/login.html";
 }
 
 function handleEyeIcon(event, Input, Icon) {
