@@ -106,7 +106,7 @@
   }
 }
 
-@media (max-width: 767px) and (min-width: 365px) {
+@media (max-width: 767px) {
   .loginContainer {
     width: calc(100% - 32px);
     max-width: 400px;
