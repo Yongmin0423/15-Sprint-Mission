@@ -24,7 +24,7 @@ export default function Nav() {
             <img className="h-[3rem] " src={brandName} />
           </div>
           <div>
-            <ul className="flex w-full text-[1.6rem] md:text-[1.8rem] gap-5 text-[#4B5563] font-[700]">
+            <ul className="flex w-full text-[1.2rem] md:text-[1.4rem] gap-5 text-[#4B5563] font-[700]">
               <li>자유게시판</li>
               <Link
                 to="/items"
