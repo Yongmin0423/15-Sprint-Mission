@@ -5,6 +5,8 @@ import BestProductList from "../components/BestProducts";
 import AllProductList from "../components/AllProductList";
 import { Link } from "react-router-dom";
 import Hamburger from "../assets/icons/icon_hamburger";
+import LeftChevron from "../assets/icons/icon_left-chevron";
+import RightChevron from "../assets/icons/icon_right-chevron";
 
 export default function Products() {
   const [bestItems, setBestItems] = useState([]);
@@ -14,12 +16,16 @@ export default function Products() {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [orderBy, setOrderBy] = useState("recent");
+  const [totalCount, setTotalCount] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   const getAllItems = async () => {
     try {
       const data = await getItems({ page, pageSize, orderBy });
       setAllItems(data?.list || []);
+      setTotalCount(data?.totalCount || 0);
     } catch (error) {
       setError(error.message);
     }
@@ -59,6 +65,24 @@ export default function Products() {
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
+  };
+
+  const getPageNumbers = () => {
+    const offset = 5;
+    const pages = [];
+    let start = Math.max(1, page - Math.floor(offset / 2));
+    let end = start + offset - 1;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(1, end - offset + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    return pages;
   };
 
   if (error) return <div>오류: {error}</div>;
@@ -161,17 +185,29 @@ export default function Products() {
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-[#3692FF] text-white rounded-xl disabled:bg-gray-300 text-sm md:text-base"
+            className="px-3 py-3 size-10 sm:px-4 sm:py-2 bg-[#3692FF] text-white rounded-full disabled:bg-gray-300 text-sm md:text-base"
           >
-            이전
+            <LeftChevron />
           </button>
-          <span className="text-sm md:text-base leading-8">{page}</span>
+          {getPageNumbers().map((p) => (
+            <button
+              key={p}
+              onClick={() => handlePageChange(p)}
+              className={`px-3 py-3 size-10 rounded-full text-sm md:text-base flex justify-center items-center ${
+                p === page
+                  ? "bg-[#3692FF] text-white"
+                  : "bg-gray-200 text-[#1F2937] hover:bg-gray-300"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
           <button
             onClick={() => handlePageChange(page + 1)}
             disabled={allItems.length < pageSize}
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-[#3692FF] text-white rounded-xl disabled:bg-gray-300 text-sm md:text-base"
+            className="px-3 py-3 size-10 sm:px-4 sm:py-2 bg-[#3692FF] text-white rounded-full disabled:bg-gray-300 text-sm md:text-base"
           >
-            다음
+            <RightChevron />
           </button>
         </div>
       </div>
