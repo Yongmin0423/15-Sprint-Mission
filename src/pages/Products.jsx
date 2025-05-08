@@ -181,7 +181,7 @@ export default function Products() {
           </div>
         </div>
         <AllProductList data={allItems} />
-        <div className="flex gap-2 mt-6 justify-center">
+        <div className="flex gap-2 mt-6 justify-center mb-10">
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
