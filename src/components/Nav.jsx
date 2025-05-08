@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function Nav() {
   const location = useLocation();
   const pathname = location.pathname;
-  console.log(pathname);
+
   return (
     <nav className="border-b border-b-gray-300">
       <div
