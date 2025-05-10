@@ -64,7 +64,7 @@ export default function AddItem() {
   };
 
   return (
-    <div className="max-w-[120rem] mx-auto p-4 ">
+    <div className="max-w-[120rem] mx-auto p-7">
       {/* <p>상태 확인: {isFormValid ? "✅ 유효함" : "❌ 유효하지 않음"}</p> */}
       <form
         onSubmit={(e) => e.preventDefault()}
