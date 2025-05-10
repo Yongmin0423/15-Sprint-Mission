@@ -1,13 +1,17 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getItemDetail } from "../apis/detailApi";
 import { useEffect, useState } from "react";
 import noImage from "../assets/images/no-image.png";
 import avatar from "../assets/images/avatar.png";
 import HeartIcon from "../assets/icons/icon_heart";
 import VerticalEllipsis from "../assets/icons/icon_vertical-ellipsis";
+import { getComments } from "../apis/commentApi";
+import { formatToTimeAgo } from "../assets/utils";
+import ReturnIcon from "../assets/icons/icon_return";
 
 export default function ProductDetail() {
   const [item, setItem] = useState(null);
+  const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { productId } = useParams();
 
@@ -23,13 +27,26 @@ export default function ProductDetail() {
     }
   };
 
+  const getCommentsData = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getComments({ productId });
+      setComments(data.list);
+    } catch (error) {
+      console.error("코멘트 데이터 오류", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (productId) {
       getDetailData();
+      getCommentsData();
     }
   }, [productId]);
 
-  console.log(item);
+  console.log("댓글들", comments);
 
   if (isLoading) {
     return <p className="text-center animate-bounce ">로딩 중..</p>;
@@ -48,7 +65,7 @@ export default function ProductDetail() {
             src={item.images[0] || noImage}
           />
         </div>
-        <div className="flex flex-col w-[65%]">
+        <div className="flex flex-col w-[65%] justify-between">
           <div className="flex flex-col gap-5 mb-5 text-[#1F2937]">
             <div className="flex justify-between">
               <h3 className="text-[2rem] font-[600]">{item.name}</h3>
@@ -97,8 +114,8 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-      <div>
-        <h3>문의하기</h3>
+      <div className="flex flex-col gap-5 mt-10">
+        <h3 className="text-[1.4rem] font-[600]">문의하기</h3>
         <textarea
           id="productDescription"
           placeholder="개인정보를 공유 및 요청하시거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
@@ -108,14 +125,44 @@ export default function ProductDetail() {
         <div className="flex justify-end ">
           <button
             type="submit"
-            className="py-2.5 px-4 rounded-md transition-colors text-white cursor-pointer
-        bg-gray-400 disabled:cursor-not-allowed"
+            className="py-2.5 px-4 rounded-md transition-all text-white cursor-pointer
+        bg-gray-400 hover:bg-[#3692FF] hover:scale-120 disabled:cursor-not-allowed "
           >
             등록
           </button>
         </div>
       </div>
-      <div></div>
+      <div className="flex flex-col gap-10 my-10">
+        {comments.map((comment) => (
+          <div className="flex flex-col gap-10 border-b border-b-gray-200 pb-5">
+            <div className="flex justify-between">
+              <p className="text-[1.2rem] font-[400]">{comment.content}</p>
+              <VerticalEllipsis />
+            </div>
+            <div className="flex h-full items-center gap-3">
+              <img
+                src={avatar}
+                className="bg-gray-300 rounded-full size-[4rem]"
+                alt="Owner Avatar"
+              />
+              <div className="flex flex-col py-1 justify-between h-full">
+                <p>{comment.writer.nickname}</p>
+                <p className="text-gray-400">
+                  {formatToTimeAgo(comment.updatedAt)}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-center">
+        <Link
+          to="/items"
+          className="bg-[#3692FF] flex text-white items-center text-[1.6rem] py-3 px-5 rounded-full transition-all hover:scale-120"
+        >
+          목록으로 돌아가기 <ReturnIcon />
+        </Link>
+      </div>
     </div>
   );
 }
