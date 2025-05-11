@@ -66,16 +66,16 @@ export default function ProductDetail() {
 
   return (
     <div className="max-w-[120rem] mx-auto p-7">
-      <div className="flex w-full h-[25%] gap-10 mx-auto text-[#4B5563] border-b-gray-200 border-b pb-10">
-        <div className="w-[35%] h-full">
+      <div className="flex flex-col md:flex-row w-full h-[25%] gap-10 mx-auto text-[#4B5563] border-b-gray-200 border-b pb-10">
+        <div className="w-full md:w-[35%] h-full">
           <img
             className="h-full aspect-1/1 rounded-3xl"
             src={item.images[0] || noImage}
           />
         </div>
-        <div className="flex flex-col w-[65%] justify-between">
+        <div className="flex flex-col w-full md:w-[65%] justify-between">
           <div className="flex flex-col gap-5 mb-5 text-[#1F2937]">
-            <div className="flex justify-between">
+            <div className="flex justify-between pr-5 ">
               <h3 className="text-[2rem] font-[600]">{item.name}</h3>
               <VerticalEllipsis />
             </div>
@@ -171,7 +171,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
               )}
-              <div className="flex justify-between">
+              <div className="flex justify-between pr-5">
                 <p className="text-[1.2rem] font-[400]">{comment.content}</p>
                 <div className="relative">
                   <button
