@@ -8,11 +8,15 @@ import VerticalEllipsis from "../assets/icons/icon_vertical-ellipsis";
 import { getComments } from "../apis/commentApi";
 import { formatToTimeAgo } from "../assets/utils";
 import ReturnIcon from "../assets/icons/icon_return";
+import noComment from "../assets/images/no-comments.png";
 
 export default function ProductDetail() {
   const [item, setItem] = useState(null);
   const [comments, setComments] = useState([]);
+  const [openMenuId, setOpenMenuId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedContent, setEditedContent] = useState("");
   const { productId } = useParams();
 
   const getDetailData = async () => {
@@ -46,7 +50,11 @@ export default function ProductDetail() {
     }
   }, [productId]);
 
-  console.log("댓글들", comments);
+  const handleEdit = (id, content) => {
+    setEditingCommentId(id);
+    setEditedContent(content);
+    setOpenMenuId(null); // 드롭다운 닫기
+  };
 
   if (isLoading) {
     return <p className="text-center animate-bounce ">로딩 중..</p>;
@@ -133,27 +141,84 @@ export default function ProductDetail() {
         </div>
       </div>
       <div className="flex flex-col gap-10 my-10">
-        {comments.map((comment) => (
-          <div className="flex flex-col gap-10 border-b border-b-gray-200 pb-5">
-            <div className="flex justify-between">
-              <p className="text-[1.2rem] font-[400]">{comment.content}</p>
-              <VerticalEllipsis />
-            </div>
-            <div className="flex h-full items-center gap-3">
-              <img
-                src={avatar}
-                className="bg-gray-300 rounded-full size-[4rem]"
-                alt="Owner Avatar"
-              />
-              <div className="flex flex-col py-1 justify-between h-full">
-                <p>{comment.writer.nickname}</p>
-                <p className="text-gray-400">
-                  {formatToTimeAgo(comment.updatedAt)}
-                </p>
+        {comments.length !== 0 ? (
+          comments.map((comment) => (
+            <div className="flex flex-col gap-10 border-b border-b-gray-200 pb-5">
+              {/* ✅ 수정 input 영역 */}
+              {editingCommentId === comment.id && (
+                <div className="flex flex-col gap-2 mb-2">
+                  <textarea
+                    type="text"
+                    value={editedContent}
+                    rows="2"
+                    onChange={(e) => setEditedContent(e.target.value)}
+                    className="border p-2 rounded text-[1.4rem] bg-[#F3F4F6] text-[#1F2937]"
+                    placeholder="수정할 내용을 입력하세요"
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="text-[1rem] text-[#737373] font-[600] px-5 py-2 border border-gray-300 rounded-xl"
+                      onClick={() => setEditingCommentId(null)}
+                    >
+                      취소
+                    </button>
+                    <button
+                      className="text-[1rem] font-[600] px-5 py-2 bg-[#3692FF] text-white rounded-xl"
+                      onClick={() => setEditingCommentId(null)}
+                    >
+                      수정 완료
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <p className="text-[1.2rem] font-[400]">{comment.content}</p>
+                <div className="relative">
+                  <button
+                    className="cursor-pointer"
+                    onClick={() =>
+                      setOpenMenuId(
+                        openMenuId === comment.id ? null : comment.id
+                      )
+                    }
+                  >
+                    <VerticalEllipsis />
+                  </button>
+                  {openMenuId === comment.id && (
+                    <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow-md z-10">
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm hover:bg-[#3692FF] hover:text-white"
+                        onClick={() => handleEdit(comment.id, comment.content)}
+                      >
+                        수정하기
+                      </button>
+                      <button className="w-full text-left px-4 py-2 text-sm hover:bg-[#3692FF] hover:text-white">
+                        삭제하기
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex h-full items-center gap-3">
+                <img
+                  src={avatar}
+                  className="bg-gray-300 rounded-full size-[4rem]"
+                  alt="Owner Avatar"
+                />
+                <div className="flex flex-col py-1 justify-between h-full">
+                  <p>{comment.writer.nickname}</p>
+                  <p className="text-gray-400">
+                    {formatToTimeAgo(comment.updatedAt)}
+                  </p>
+                </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div className="flex justify-center items-center w-full h-full">
+            <img className="aspect-square w-1/6" src={noComment} />
           </div>
-        ))}
+        )}
       </div>
       <div className="flex justify-center">
         <Link
