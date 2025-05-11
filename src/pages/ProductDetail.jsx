@@ -6,7 +6,7 @@ import avatar from "../assets/images/avatar.png";
 import HeartIcon from "../assets/icons/icon_heart";
 import VerticalEllipsis from "../assets/icons/icon_vertical-ellipsis";
 import { getComments } from "../apis/commentApi";
-import { formatToTimeAgo } from "../assets/utils";
+import { formatDateToYMD, formatToTimeAgo } from "../assets/utils";
 import ReturnIcon from "../assets/icons/icon_return";
 import noComment from "../assets/images/no-comments.png";
 
@@ -112,8 +112,10 @@ export default function ProductDetail() {
                 alt="Owner Avatar"
               />
               <div className="flex flex-col py-1 justify-between h-full">
-                <p>{item.ownerNickname}</p>
-                <p>{item.updatedAt}</p>
+                <p className="text-[#4B5563]">{item.ownerNickname}</p>
+                <p className="text-[#9CA3AF]">
+                  {formatDateToYMD(item.updatedAt)}
+                </p>
               </div>
             </div>
             <div className="flex border border-[#E5E7EB] rounded-full px-2 py-0.5">
