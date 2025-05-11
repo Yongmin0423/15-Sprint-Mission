@@ -17,6 +17,7 @@ export default function ProductDetail() {
   const [isLoading, setIsLoading] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState("");
+  const [commentText, setCommentText] = useState("");
   const { productId } = useParams();
 
   const getDetailData = async () => {
@@ -128,13 +129,21 @@ export default function ProductDetail() {
           id="productDescription"
           placeholder="개인정보를 공유 및 요청하시거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
           rows="5"
-          className="w-full p-4 bg-[#F3F4F6] placeholder:text-[#9CA3AF] placeholder:text-[1.4rem] "
+          className="w-full p-4 bg-[#F3F4F6] placeholder:text-[#9CA3AF] placeholder:text-[1.4rem]"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
         />
         <div className="flex justify-end ">
           <button
             type="submit"
-            className="py-2.5 px-4 rounded-md transition-all text-white cursor-pointer
-        bg-gray-400 hover:bg-[#3692FF] hover:scale-120 disabled:cursor-not-allowed "
+            className={`py-2.5 px-4 rounded-md transition-all text-white cursor-pointer
+    ${
+      commentText.trim() === ""
+        ? "bg-gray-300 cursor-not-allowed"
+        : "bg-[#3692FF] hover:scale-120"
+    }
+  `}
+            disabled={commentText.trim() === ""} // 입력 없으면 비활성화
           >
             등록
           </button>
